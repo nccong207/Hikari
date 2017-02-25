@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuaTenHV", "SuaTenHV\SuaTen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XepLop", "XepLop\XepLop.csproj", "{47725085-AFDB-4C33-AEB9-B41BF84BA766}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XoaHV", "XoaHV\XoaHV.csproj", "{344FFFCB-6001-4B23-AA63-A112852853D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{47725085-AFDB-4C33-AEB9-B41BF84BA766}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47725085-AFDB-4C33-AEB9-B41BF84BA766}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47725085-AFDB-4C33-AEB9-B41BF84BA766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344FFFCB-6001-4B23-AA63-A112852853D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344FFFCB-6001-4B23-AA63-A112852853D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344FFFCB-6001-4B23-AA63-A112852853D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344FFFCB-6001-4B23-AA63-A112852853D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
