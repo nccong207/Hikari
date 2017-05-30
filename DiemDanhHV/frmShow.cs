@@ -42,9 +42,10 @@ namespace DiemDanhHV
             dateBegin.DateTime = dtFirst;
             dateEnd.DateTime = dtLast;
             getLopHoc();
+            cbShowAllClass.Checked = false;
         }
 
-        private void getLopHoc()
+        private void getLopHoc(bool isShowLopKT = false)
         {
             // Là admin: hiển thị đầy đủ lớp
             // Là giáo viên: chỉ hiển thị lớp do mình phụ trách
@@ -62,9 +63,12 @@ namespace DiemDanhHV
                                         SELECT l.MaLop, l.TenLop, l.NgayBDKhoa, l.NgayKTKhoa
                                         FROM    DMLopHoc l
                                                 LEFT OUTER JOIN GVPhuTrach gv ON l.MaLop = gv.MaLop
-                                        WHERE   isKT ='0' AND MaCN = '{0}'
+                                        WHERE   MaCN = '{0}'
                                                 AND l.NgayBDKhoa <= @NgayKT AND l.NgayKTKhoa >= @NgayBD"
                                         , Config.GetValue("MaCN").ToString(), iThang, iNam);
+
+            sql += !isShowLopKT ? " AND isKT ='0'" : "";
+            
 
             dtLop = db.GetDataTable(sql);
             grdEditLopHoc.Properties.DataSource = dtLop;
@@ -84,6 +88,11 @@ namespace DiemDanhHV
             this.DialogResult = DialogResult.OK;
         }
 
+        private void cbShowAllClass_CheckedChange(object sender, EventArgs e)
+        {
+            getLopHoc(cbShowAllClass.Checked);
+        }
+        
         private DataTable getHocVien(string _MaLop)
         {
             string dBegin = dateBegin.DateTime.ToString();
