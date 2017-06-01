@@ -63,11 +63,14 @@ namespace DiemDanhHV
                                         SELECT l.MaLop, l.TenLop, l.NgayBDKhoa, l.NgayKTKhoa
                                         FROM    DMLopHoc l
                                                 LEFT OUTER JOIN GVPhuTrach gv ON l.MaLop = gv.MaLop
-                                        WHERE   MaCN = '{0}'
+                                        WHERE   isKT ='0' AND MaCN = '{0}'
                                                 AND l.NgayBDKhoa <= @NgayKT AND l.NgayKTKhoa >= @NgayBD"
                                         , Config.GetValue("MaCN").ToString(), iThang, iNam);
-
-            sql += !isShowLopKT ? " AND isKT ='0'" : "";
+            // Lay tat ca danh muc lop hoc khi checkbox checked.
+            if (isShowLopKT)
+            {
+                sql = "SELECT l.MaLop, l.TenLop, l.NgayBDKhoa, l.NgayKTKhoa FROM DMLopHoc l LEFT OUTER JOIN GVPhuTrach gv ON l.MaLop = gv.MaLop";
+            }
             
 
             dtLop = db.GetDataTable(sql);
