@@ -21,6 +21,7 @@ namespace DiemDanhHV
         Database db = Database.NewDataDatabase();
         public DataTable dtLop;
         public DataTable dtHocVien;
+        public Boolean isChonLopKT = false;
         public string MaLop = "";
         public DateTime dtFirst = DateTime.Today;
         DateTime dtLast = DateTime.Today;
@@ -42,10 +43,9 @@ namespace DiemDanhHV
             dateBegin.DateTime = dtFirst;
             dateEnd.DateTime = dtLast;
             getLopHoc();
-            cbShowAllClass.Checked = false;
         }
 
-        private void getLopHoc(bool isShowLopKT = false)
+        private void getLopHoc()
         {
             // Là admin: hiển thị đầy đủ lớp
             // Là giáo viên: chỉ hiển thị lớp do mình phụ trách
@@ -66,12 +66,12 @@ namespace DiemDanhHV
                                         WHERE   isKT ='0' AND MaCN = '{0}'
                                                 AND l.NgayBDKhoa <= @NgayKT AND l.NgayKTKhoa >= @NgayBD"
                                         , Config.GetValue("MaCN").ToString(), iThang, iNam);
-            // Lay tat ca danh muc lop hoc khi checkbox checked.
-            if (isShowLopKT)
+            // Lay tat ca danh muc lop hoc ket thuc khi checkbox checked.
+            if (isChonLopKT)
             {
-                sql = "SELECT l.MaLop, l.TenLop, l.NgayBDKhoa, l.NgayKTKhoa FROM DMLopHoc l LEFT OUTER JOIN GVPhuTrach gv ON l.MaLop = gv.MaLop";
+                string macn = Config.GetValue("MaCN").ToString();
+                sql = string.Format("SELECT l.MaLop, l.TenLop, l.NgayBDKhoa, l.NgayKTKhoa FROM DMLopHoc l WHERE l.isKT ='1' and l.MaCN = '{0}' and (year(l.NgayBDKhoa) = {1} or year(l.NgayKTKhoa) = {1})", macn, iNam);
             }
-            
 
             dtLop = db.GetDataTable(sql);
             grdEditLopHoc.Properties.DataSource = dtLop;
@@ -91,10 +91,12 @@ namespace DiemDanhHV
             this.DialogResult = DialogResult.OK;
         }
 
-        private void cbShowAllClass_CheckedChange(object sender, EventArgs e)
-        {
-            getLopHoc(cbShowAllClass.Checked);
-        }
+        //private void cbShowAllClass_CheckedChange(object sender, EventArgs e)
+        //{
+        //    getLopHoc(cbShowAllClass.Checked);
+        //    spTuan.Enabled = !cbShowAllClass.Checked;
+        //    isChonLopKT = cbShowAllClass.Checked;
+        //}
         
         private DataTable getHocVien(string _MaLop)
         {
@@ -110,6 +112,16 @@ namespace DiemDanhHV
                             SELECT	MaLop, MaHV [HVID]
                             FROM	DiemDanhHV
                             WHERE	MaLop = '{2}' AND Ngay BETWEEN @NgayBD AND @NgayKT ", dBegin, dEnd, _MaLop);
+
+            if (isChonLopKT)
+            {
+                sql = string.Format(@"SELECT	MaLop, MaHV [HVID]
+                            FROM	DiemDanhHV
+                            WHERE	MaLop = '{0}'", _MaLop);
+            }
+
+           
+
             DataTable dtSub = db.GetDataTable(sql);
 
             if (dtSub.Rows.Count == 0)

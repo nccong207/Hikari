@@ -43,12 +43,18 @@ namespace DiemDanhHV
         private void LayDanhSachHV()
         {
             frmShow frm = new frmShow();
-            frm.Text = "Điểm danh học viên";
+            
+
+            string menuid = data.DrTable["sysMenuID"].ToString();
+
+            frm.Text = menuid.Equals("9912") ? "Điểm danh học viên" : "Điểm danh học viên lớp kết thúc";
+            frm.isChonLopKT = menuid.Equals("9912") ? false : true;
+
             if (frm.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            gv.ActiveFilterString = "MaLop = '" + frm.MaLop + "' and Ngay >= #" + frm.dtFirst + "#";
-
+            gv.ActiveFilterString = frm.isChonLopKT ? "MaLop = '" + frm.MaLop + "'" : "MaLop = '" + frm.MaLop + "' and Ngay >= #" + frm.dtFirst + "#";
+          
             //if (gv.DataRowCount == 0)
             //{
             if (frm.dtHocVien == null)
