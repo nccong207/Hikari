@@ -344,7 +344,6 @@
             this.cbShowAllClass.Size = new System.Drawing.Size(236, 19);
             this.cbShowAllClass.StyleController = this.layoutControl1;
             this.cbShowAllClass.TabIndex = 15;
-            this.cbShowAllClass.CheckedChanged += new System.EventHandler(this.cbShowAllClass_CheckedChange);
             // 
             // layoutControlItem7
             // 
